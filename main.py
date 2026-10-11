@@ -1,3 +1,5 @@
+# main.py
+import asyncio
 import pygame, sys
 from settings import WIDTH, HEIGHT, ground_space
 from world import World
@@ -18,8 +20,8 @@ class Main:
         self.FPS = pygame.time.Clock()
         self.stop_ground_scroll = False
 
-    def main(self):
-        world = World(screen)
+    async def main(self):
+        world = World(self.screen)
         while True:
             self.stop_ground_scroll = world.game_over
             self.screen.blit(self.bg_img, (0, 0))
@@ -42,7 +44,8 @@ class Main:
                     self.ground_scroll = 0
             pygame.display.update()
             self.FPS.tick(60)
+            await asyncio.sleep(0)
 
 if __name__ == "__main__":
     play = Main(screen)
-    play.main()
+    asyncio.run(play.main())
